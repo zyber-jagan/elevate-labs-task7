@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch API Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .user-card {
+      background: white;
+      padding: 15px;
+      margin: 10px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: left;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>👤 Random User Data</h1>
+  <button id="loadUser">Fetch User</button>
+  <div id="userContainer"></div>
+
+  <script>
+    document.getElementById("loadUser").addEventListener("click", fetchUser);
+
+    function fetchUser() {
+      fetch("https://randomuser.me/api/") // Public API
+        .then(response => response.json())
+        .then(data => {
+          const user = data.results[0];
+          const userCard = `
+            <div class="user-card">
+              <img src="${user.picture.large}" alt="User Picture" style="border-radius:50%; width:100px; height:100px;">
+              <h2>${user.name.first} ${user.name.last}</h2>
+              <p><b>Email:</b> ${user.email}</p>
+              <p><b>Location:</b> ${user.location.city}, ${user.location.country}</p>
+            </div>
+          `;
+          document.getElementById("userContainer").innerHTML = userCard;
+        })
+        .catch(error => console.error("Error fetching user:", error));
+    }
+  </script>
+</body>
+</html>
